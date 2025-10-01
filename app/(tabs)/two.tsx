@@ -1,4 +1,4 @@
-import { Button, FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 
 import { Loader } from "@/components/loader";
 import { PokemonItem } from "@/components/pokemon-item";
@@ -25,11 +25,6 @@ export default function TabTwoScreen() {
     }
   }, [data]);
 
-  const getMore = () => {
-    if (hasNextPage) {
-      fetchNextPage?.();
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -40,7 +35,6 @@ export default function TabTwoScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <Button title="Get More" onPress={getMore} />
 
       <FlatList
         showsVerticalScrollIndicator={false}
