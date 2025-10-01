@@ -51,7 +51,7 @@ export default function TabTwoScreen() {
         onEndReachedThreshold={0.7}
         onEndReached={() => {
           if (hasNextPage && !isFetchingNextPage) {
-            // fetchNextPage?.();
+            fetchNextPage?.();
           }
         }}
         ListFooterComponent={
