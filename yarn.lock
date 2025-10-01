@@ -1713,15 +1713,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/netinfo@npm:11.4.1":
-  version: 11.4.1
-  resolution: "@react-native-community/netinfo@npm:11.4.1"
-  peerDependencies:
-    react-native: ">=0.59"
-  checksum: 10c0/118ba6d495bd14c2dab3d228a0c1857620a293ae8592d170d70eaf88a6ac6a4e35c7f84527975a9054e36891a9694aacc8ec053326b5f05961459ed08a70dd35
-  languageName: node
-  linkType: hard
-
 "@react-native/assets-registry@npm:0.79.5":
   version: 0.79.5
   resolution: "@react-native/assets-registry@npm:0.79.5"
@@ -3514,6 +3505,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-network@npm:~7.1.5":
+  version: 7.1.5
+  resolution: "expo-network@npm:7.1.5"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+  checksum: 10c0/c2e02c337e0d0e3e7bf01334e4730bd2e5a5cb822c0b33146a64a1ac3b7e95384c6558359260a5b1aa6e504a874a9f7feefc99aee7a7a0590a5d8fad8b1b4106
+  languageName: node
+  linkType: hard
+
 "expo-router@npm:~5.1.7":
   version: 5.1.7
   resolution: "expo-router@npm:5.1.7"
@@ -3673,7 +3674,6 @@ __metadata:
   resolution: "feed-caching@workspace:."
   dependencies:
     "@expo/vector-icons": "npm:^14.1.0"
-    "@react-native-community/netinfo": "npm:11.4.1"
     "@react-navigation/native": "npm:^7.1.6"
     "@tanstack/react-query": "npm:^5.90.2"
     "@types/react": "npm:~19.0.10"
@@ -3682,6 +3682,7 @@ __metadata:
     expo-dev-client: "npm:~5.2.4"
     expo-font: "npm:~13.3.2"
     expo-linking: "npm:~7.1.7"
+    expo-network: "npm:~7.1.5"
     expo-router: "npm:~5.1.7"
     expo-splash-screen: "npm:~0.30.10"
     expo-status-bar: "npm:~2.2.3"
