@@ -5,11 +5,16 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  focusManager,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { AppState, AppStateStatus, Platform } from "react-native";
 import "react-native-reanimated";
 import "../utils/tanstack-query-config";
 const queryClient = new QueryClient();
@@ -24,7 +29,6 @@ export const unstable_settings = {
   initialRouteName: "(tabs)",
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -32,6 +36,19 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+
+  // Inform tanstack query about the app's focus state-------
+  function onAppStateChange(status: AppStateStatus) {
+    if (Platform.OS !== "web") {
+      focusManager.setFocused(status === "active");
+    }
+  }
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", onAppStateChange);
+    return () => subscription.remove();
+  }, []);
+  // Inform tanstack query about the app's focus state-------
+
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
