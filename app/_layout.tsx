@@ -17,7 +17,20 @@ import { useEffect } from "react";
 import { AppState, AppStateStatus, Platform } from "react-native";
 import "react-native-reanimated";
 import "../utils/tanstack-query-config";
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 1000 * 60 * 5, // 5 mins
+      staleTime: 1000 * 60, // 1 minute
+      // How long unused data stays in cache before garbage collection
+      retry: 2, // retry failed queries 2 times
+      refetchOnWindowFocus: true, // refetch when app comes back into focus
+    },
+    mutations: {
+      retry: 1, // retry failed mutations once
+    },
+  },
+});
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,7 +61,6 @@ export default function RootLayout() {
     return () => subscription.remove();
   }, []);
   // Inform tanstack query about the app's focus state-------
-
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {

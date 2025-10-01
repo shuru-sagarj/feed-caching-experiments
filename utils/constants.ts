@@ -1,1 +1,1 @@
-export const MAX_POKEMONS_PER_REQUEST = 5;
+export const MAX_POKEMONS_PER_REQUEST = 20;

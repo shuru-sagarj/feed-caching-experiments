@@ -17,8 +17,7 @@ export const PokemonItem = ({ name, url }: { name: string; url: string }) => {
 const styles = StyleSheet.create({
   item: {
     backgroundColor: "#efefef",
-    paddingVertical: 12,
-    paddingHorizontal: 18,
+    paddingVertical: 18,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
@@ -28,6 +27,8 @@ const styles = StyleSheet.create({
   },
   name: {
     textTransform: 'capitalize',
+    fontSize: 16,
+    fontWeight: '600',
   },
   url: {},
 });

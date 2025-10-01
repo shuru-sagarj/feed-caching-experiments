@@ -5,7 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 export const usePokemon = () => {
   return useInfiniteQuery({
     queryKey: ["pokemon"],
-    queryFn: ({ pageParam = 5 }) =>
+    queryFn: ({ pageParam }) =>
       fetchPokemonPaginated({
         offset: pageParam,
         limit: MAX_POKEMONS_PER_REQUEST,
