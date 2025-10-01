@@ -1,11 +1,5 @@
-import { useColorScheme } from "@/components/useColorScheme";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { focusManager, QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
@@ -16,20 +10,19 @@ import { useEffect } from "react";
 import { AppState, AppStateStatus, Platform } from "react-native";
 import "react-native-reanimated";
 import "../utils/tanstack-query-config";
-const TWENTY_FOUR_HRS_IN_MS = 1000 * 60 * 60 * 24;
+const ONE_MINUTE = 1000 * 60;
+const TWENTY_FOUR_HRS_IN_MS = ONE_MINUTE * 60 * 24;
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      gcTime: TWENTY_FOUR_HRS_IN_MS,
-      // gcTime: 1000 * 60 * 5, // 5 mins TODO: Add Infinity to disable
-      staleTime: 1000 * 60, // 1 minute
-      // How long unused data stays in cache before garbage collection
-      retry: 2, // retry failed queries 2 times
-      refetchOnWindowFocus: true, // refetch when app comes back into focus
+      gcTime: TWENTY_FOUR_HRS_IN_MS, // TODO: Add Infinity to disable
+      staleTime: ONE_MINUTE,
+      retry: 2,
+      refetchOnWindowFocus: true,
     },
     mutations: {
-      retry: 1, // retry failed mutations once
+      retry: 1,
     },
   },
 });
@@ -87,10 +80,8 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <PersistQueryClientProvider
         client={queryClient}
         persistOptions={{ persister: persister, maxAge: TWENTY_FOUR_HRS_IN_MS }}
@@ -100,6 +91,5 @@ function RootLayoutNav() {
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         </Stack>
       </PersistQueryClientProvider>
-    </ThemeProvider>
   );
 }

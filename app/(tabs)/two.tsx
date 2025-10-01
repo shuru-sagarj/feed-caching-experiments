@@ -1,8 +1,7 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 import { Loader } from "@/components/loader";
 import { PokemonItem } from "@/components/pokemon-item";
-import { Text, View } from "@/components/Themed";
 import { usePokemon } from "@/hooks/tanstack-query/usePokemon";
 import { useEffect, useState } from "react";
 
@@ -31,8 +30,6 @@ export default function TabTwoScreen() {
       {isFetching && <Loader />}
       <View
         style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
       />
 
       <FlatList
