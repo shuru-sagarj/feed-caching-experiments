@@ -1,15 +1,14 @@
 import { useColorScheme } from "@/components/useColorScheme";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import {
-  focusManager,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
+import { focusManager, QueryClient } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -17,10 +16,13 @@ import { useEffect } from "react";
 import { AppState, AppStateStatus, Platform } from "react-native";
 import "react-native-reanimated";
 import "../utils/tanstack-query-config";
+const TWENTY_FOUR_HRS_IN_MS = 1000 * 60 * 60 * 24;
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      gcTime: 1000 * 60 * 5, // 5 mins
+      gcTime: TWENTY_FOUR_HRS_IN_MS,
+      // gcTime: 1000 * 60 * 5, // 5 mins TODO: Add Infinity to disable
       staleTime: 1000 * 60, // 1 minute
       // How long unused data stays in cache before garbage collection
       retry: 2, // retry failed queries 2 times
@@ -30,6 +32,10 @@ const queryClient = new QueryClient({
       retry: 1, // retry failed mutations once
     },
   },
+});
+
+const persister = createAsyncStoragePersister({
+  storage: AsyncStorage,
 });
 
 export {
@@ -85,12 +91,15 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <QueryClientProvider client={queryClient}>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister: persister, maxAge: TWENTY_FOUR_HRS_IN_MS }}
+      >
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         </Stack>
-      </QueryClientProvider>
+      </PersistQueryClientProvider>
     </ThemeProvider>
   );
 }

@@ -25,7 +25,6 @@ export default function TabTwoScreen() {
     }
   }, [data]);
 
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Pokemons Feed</Text>
@@ -42,6 +41,9 @@ export default function TabTwoScreen() {
         contentContainerStyle={{
           rowGap: 16,
         }}
+        style={{
+          marginBottom: 20,
+        }}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => {
           return <PokemonItem {...item} />;
@@ -49,10 +51,14 @@ export default function TabTwoScreen() {
         onEndReachedThreshold={0.7}
         onEndReached={() => {
           if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage?.();
+            // fetchNextPage?.();
           }
         }}
-        // ListFooterComponent={isFetchingNextPage ? <ActivityIndicator /> : null} // Can keep this if needed
+        ListFooterComponent={
+          <View>
+            <Text>Reached the end...</Text>
+          </View>
+        } // Can keep this if needed
       />
     </View>
   );
