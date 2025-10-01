@@ -1,6 +1,7 @@
 import { Button, FlatList, StyleSheet } from "react-native";
 
 import { Loader } from "@/components/loader";
+import { PokemonItem } from "@/components/pokemon-item";
 import { Text, View } from "@/components/Themed";
 import { usePokemon } from "@/hooks/tanstack-query/usePokemon";
 import { useEffect, useState } from "react";
@@ -8,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function TabTwoScreen() {
   const {
     isFetching,
-    // isFetchingNextPage,
+    isFetchingNextPage,
     data,
     hasNextPage,
     // hasPreviousPage,
@@ -44,8 +45,18 @@ export default function TabTwoScreen() {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={feedData}
+        contentContainerStyle={{
+          rowGap: 16,
+        }}
+        keyExtractor={(item) => item.name}
         renderItem={({ item }) => {
-          return <Text>{item.name}</Text>;
+          return <PokemonItem {...item} />;
+        }}
+        onEndReachedThreshold={0.7}
+        onEndReached={() => {
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage?.();
+          }
         }}
         // ListFooterComponent={isFetchingNextPage ? <ActivityIndicator /> : null} // Can keep this if needed
       />
