@@ -7,7 +7,8 @@
 ### Integrations
 1. LegendApp State
 2. expo-sqlite
-3. TanStack Query
+3. axios
+4. TanStack Query (optional)
 
 ### Installation
 ```bash
