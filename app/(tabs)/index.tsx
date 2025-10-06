@@ -1,23 +1,14 @@
 import { CommentList } from "@/components/comments-list";
-import { addOrUpdateComment } from "@/services/store/commentActions";
 import {
   connectionStore,
   toggleNetwork,
 } from "@/services/store/connectionStore";
 import { useSelector } from "@legendapp/state/react";
-import { useCallback } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function TabOneScreen() {
   const isOnline = useSelector(() => connectionStore.isOnline.get());
 
-  const addComment = useCallback(() => {
-    addOrUpdateComment(
-      Math.floor(Math.random() * 100000).toString(),
-      "This is a good post",
-      0
-    );
-  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -28,7 +19,6 @@ export default function TabOneScreen() {
         />
       </View>
       <Text style={styles.title}>Tab One</Text>
-      <Button title="Add comment" onPress={addComment} />
       <View style={styles.separator} />
       <CommentList />
     </View>

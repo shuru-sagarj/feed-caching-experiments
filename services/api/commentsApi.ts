@@ -1,6 +1,6 @@
 import api, { mock } from ".";
 
-const commentsBackend = [
+let commentsBackend = [
   {
     id: "1",
     text: "This is a good post.",
@@ -28,11 +28,42 @@ mock.onPost("/comments/remove").reply((config) => {
   commentsBackend.pop();
   return [200, commentsBackend];
 });
+mock.onPatch("/comments/toggle-like").reply((config) => {
+  const id = config?.params?.id;
+  const vote = config?.params?.vote;
+  const comment = commentsBackend.filter((i) => i.id === id)?.[0];
+  if (comment) {
+    comment.liked = vote;
+  }
+  const commentsUpdated = commentsBackend.map((i) => {
+    if (i.id === id) {
+      return {
+        ...i,
+        liked: vote,
+      };
+    }
+    return i;
+  });
+  commentsBackend = commentsUpdated;
+  return [200, commentsBackend];
+});
 
 export const loadComments = async () => {
   try {
     return (await api.get("/comments")).data;
   } catch (error) {
     console.log("Error fetching comments");
+  }
+};
+
+export const toggleLike = async (id: string, vote: 0 | 1) => {
+  try {
+    await api.patch("/comments/toggle-like", {
+      id,
+      vote,
+    });
+  } catch (error) {
+    console.log('Error mutating', error);
+    
   }
 };
