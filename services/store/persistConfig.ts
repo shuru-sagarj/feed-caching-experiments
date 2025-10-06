@@ -12,6 +12,7 @@ const persistOptions = configureSynced({
 syncObservable(
   commentsStore$,
   persistOptions({
+    syncMode: 'auto', // Toggle this to see where the data was loaded from 
     persist: {
       name: "commentsStore",
     },
