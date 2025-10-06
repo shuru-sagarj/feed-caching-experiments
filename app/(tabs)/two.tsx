@@ -1,38 +1,16 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-import { Loader } from "@/components/loader";
-import { PokemonItem } from "@/components/pokemon-item";
-import { usePokemon } from "@/hooks/tanstack-query/usePokemon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function TabTwoScreen() {
-  const {
-    isFetching,
-    isFetchingNextPage,
-    data,
-    hasNextPage,
-    // hasPreviousPage,
-    // error,
-    fetchNextPage,
-  } = usePokemon();
   const [feedData, setFeedData] = useState<{ name: string; url: string }[]>();
-
-  useEffect(() => {
-    if (data?.pages?.length) {
-      const flattened = data?.pages.flatMap((page) => page.results) ?? [];
-      setFeedData(flattened);
-    }
-  }, [data]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pokemons Feed</Text>
-      {isFetching && <Loader />}
-      <View
-        style={styles.separator}
-      />
+      <Text style={styles.title}>Comments Feed</Text>
+      <View style={styles.separator} />
 
-      <FlatList
+      {/* <FlatList
         showsVerticalScrollIndicator={false}
         data={feedData}
         contentContainerStyle={{
@@ -56,7 +34,7 @@ export default function TabTwoScreen() {
             <Text>Reached the end...</Text>
           </View>
         } // Can keep this if needed
-      />
+      /> */}
     </View>
   );
 }
