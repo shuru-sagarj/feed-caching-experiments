@@ -12,6 +12,18 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
+      {!isOnline && (
+        <View
+          style={{
+            backgroundColor: "orange",
+            width: "100%",
+            alignItems: "center",
+            paddingVertical: 8,
+          }}
+        >
+          <Text style={{ color: "#fff" }}>You're offline</Text>
+        </View>
+      )}
       <View style={styles.wrapper}>
         <Text style={{}}>You're {isOnline ? "Online" : "Offline"}</Text>
         <Button

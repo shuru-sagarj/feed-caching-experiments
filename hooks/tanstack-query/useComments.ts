@@ -1,11 +1,13 @@
 import { loadComments, toggleLike } from "@/services/api/commentsApi";
 import { commentsStore$ } from "@/services/store/commentsStore";
+import { connectionStore } from "@/services/store/connectionStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useComments = () => {
   const queryClient = useQueryClient();
   const allComments = commentsStore$.comments.get();
   const loadingComments = commentsStore$.isLoading.get();
+  const isOnline = connectionStore.isOnline.get();
 
   const { mutateAsync } = useMutation<
     void,
@@ -21,12 +23,15 @@ export const useComments = () => {
 
   // Fetching comments from mock api and updating the store
   const fetchAllComments = async () => {
+    if (!isOnline) {
+      return;
+    }
     commentsStore$.isLoading.set(true);
     try {
       const allComments = await loadComments();
       if (allComments) {
         commentsStore$.comments.set(allComments);
-        commentsStore$.source.set('network');
+        commentsStore$.source.set("network");
       }
     } catch (error) {
       //

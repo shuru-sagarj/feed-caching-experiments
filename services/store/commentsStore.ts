@@ -1,6 +1,7 @@
 import { observable } from "@legendapp/state";
 import { synced } from "@legendapp/state/sync";
 import { loadComments } from "../api/commentsApi";
+import { connectionStore } from "./connectionStore";
 
 export interface Comment {
   id: string;
@@ -16,8 +17,11 @@ export const commentsStore$ = observable<{
   comments: synced({
     initial: [],
     get: async () => {
-      const data = await loadComments();
-      return data;
+      const isOnline = connectionStore?.isOnline.get?.();
+      if (isOnline) {
+        const data = await loadComments();
+        return data;
+      }
     },
   }),
   isLoading: false,
