@@ -1,8 +1,9 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
-import { focusManager, QueryClient } from "@tanstack/react-query";
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import {
+  focusManager,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -25,10 +26,6 @@ const queryClient = new QueryClient({
       retry: 1,
     },
   },
-});
-
-const persister = createAsyncStoragePersister({
-  storage: AsyncStorage,
 });
 
 export {
@@ -80,16 +77,12 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-
   return (
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{ persister: persister, maxAge: TWENTY_FOUR_HRS_IN_MS }}
-      >
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-        </Stack>
-      </PersistQueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      </Stack>
+    </QueryClientProvider>
   );
 }
