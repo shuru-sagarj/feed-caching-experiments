@@ -1,8 +1,5 @@
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
+import api, { mock } from ".";
 
-const api = axios.create({ baseURL: "/api" });
-const mock = new MockAdapter(api, { delayResponse: 500 });
 const commentsBackend = [
   {
     id: "1",
@@ -31,7 +28,6 @@ mock.onPost("/comments/remove").reply((config) => {
   commentsBackend.pop();
   return [200, commentsBackend];
 });
-export default api;
 
 export const loadComments = async () => {
   try {
