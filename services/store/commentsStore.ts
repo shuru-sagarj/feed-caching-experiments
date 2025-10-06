@@ -7,7 +7,7 @@ export interface Comment {
   pending?: boolean;
 }
 
-export const commentsStore = observable<{
+export const commentsStore$ = observable<{
   comments: Comment[];
   isLoading: boolean;
 }>({

@@ -1,11 +1,11 @@
 import { useComments } from "@/hooks/tanstack-query/useComments";
-import { commentsStore } from "@/services/store/commentsStore";
+import { commentsStore$ } from "@/services/store/commentsStore";
 import { observer } from "@legendapp/state/react";
 import { FC } from "react";
 import { ActivityIndicator, Button, FlatList, Text, View } from "react-native";
 
 const CommentListComponent: FC = () => {
-  const comments = commentsStore.comments.get();
+  const comments = commentsStore$.comments.get();
   const { loadingComments, fetchAllComments, toggleCommentVote } =
     useComments();
 
