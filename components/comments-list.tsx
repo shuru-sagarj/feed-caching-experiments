@@ -6,10 +6,9 @@ import { ActivityIndicator, Button, FlatList, Text, View } from "react-native";
 
 const CommentListComponent: FC = () => {
   const comments = commentsStore$.comments.get();
-  const { loadingComments, fetchAllComments, toggleCommentVote } =
-    useComments();
+  const { isLoading, fetchAllComments, toggleCommentVote } = useComments();
 
-  if (loadingComments) {
+  if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator />
@@ -20,6 +19,7 @@ const CommentListComponent: FC = () => {
   return (
     <>
       <Button title={"Load comments"} onPress={fetchAllComments} />
+      <Text>Comments loaded from {commentsStore$.source.get()}</Text>
       <FlatList
         data={comments}
         keyExtractor={(c) => c.id}

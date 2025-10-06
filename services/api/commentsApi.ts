@@ -52,7 +52,7 @@ export const loadComments = async () => {
   try {
     return (await api.get("/comments")).data;
   } catch (error) {
-    console.log("Error fetching comments");
+    console.log("Error fetching comments", error);
   }
 };
 
@@ -64,6 +64,5 @@ export const toggleLike = async (id: string, vote: 0 | 1) => {
     });
   } catch (error) {
     console.log('Error mutating', error);
-    
   }
 };

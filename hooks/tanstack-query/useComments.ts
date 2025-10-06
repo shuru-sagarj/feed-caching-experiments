@@ -1,15 +1,11 @@
 import { loadComments, toggleLike } from "@/services/api/commentsApi";
 import { commentsStore$ } from "@/services/store/commentsStore";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useComments = () => {
   const queryClient = useQueryClient();
-
-  const { isLoading, data, refetch } = useQuery({
-    queryKey: ["comments"],
-    queryFn: loadComments,
-    enabled: false,
-  });
+  const allComments = commentsStore$.comments.get();
+  const loadingComments = commentsStore$.isLoading.get();
 
   const { mutateAsync } = useMutation<
     void,
@@ -25,8 +21,18 @@ export const useComments = () => {
 
   // Fetching comments from mock api and updating the store
   const fetchAllComments = async () => {
-    const allComments = (await refetch()).data;
-    commentsStore$.comments.set(allComments);
+    commentsStore$.isLoading.set(true);
+    try {
+      const allComments = await loadComments();
+      if (allComments) {
+        commentsStore$.comments.set(allComments);
+        commentsStore$.source.set('network');
+      }
+    } catch (error) {
+      //
+    } finally {
+      commentsStore$.isLoading.set(false);
+    }
   };
 
   const toggleUpvote = async (id: string, vote: 0 | 1) => {
@@ -69,8 +75,8 @@ export const useComments = () => {
 
   return {
     fetchAllComments,
-    allComments: data,
-    loadingComments: isLoading,
+    allComments,
+    isLoading: loadingComments,
     toggleCommentVote: toggleUpvote,
   };
 };

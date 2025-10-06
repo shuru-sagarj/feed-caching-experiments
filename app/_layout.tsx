@@ -1,3 +1,4 @@
+import '@/services/store/persistConfig';
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   focusManager,
