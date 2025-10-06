@@ -2,7 +2,8 @@ import { useComments } from "@/hooks/tanstack-query/useComments";
 import { commentsStore$ } from "@/services/store/commentsStore";
 import { observer } from "@legendapp/state/react";
 import { FC } from "react";
-import { ActivityIndicator, Button, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { Button } from "./button";
 
 const CommentListComponent: FC = () => {
   const comments = commentsStore$.comments.get();
@@ -18,17 +19,23 @@ const CommentListComponent: FC = () => {
 
   return (
     <>
-      <Button title={"Load comments"} onPress={fetchAllComments} />
+      <Button large text={"Load comments"} onPress={fetchAllComments} />
       <Text>Comments loaded from {commentsStore$.source.get()}</Text>
       <FlatList
         data={comments}
         keyExtractor={(c) => c.id}
         renderItem={({ item }) => (
-          <View style={{ margin: 10, padding: 10, backgroundColor: "#f0f0f0" }}>
+          <View
+            style={{
+              margin: 10,
+              padding: 10,
+              gap: 10,
+              backgroundColor: "#eaeaea",
+            }}
+          >
             <Text>{item.text}</Text>
-            <Text>{item.liked ? "Liked" : "Not liked"}</Text>
             <Button
-              title={item.liked ? "Unlike" : "Like"}
+              text={item.liked ? "Unlike" : "Like"}
               onPress={() =>
                 toggleCommentVote(item.id, item.liked === 0 ? 1 : 0)
               }
