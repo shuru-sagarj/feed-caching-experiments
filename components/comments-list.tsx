@@ -1,28 +1,40 @@
+import { useComments } from "@/hooks/tanstack-query/useComments";
 import { toggleLike } from "@/services/store/commentActions";
 import { commentsStore } from "@/services/store/commentsStore";
 import { observer } from "@legendapp/state/react";
 import { FC } from "react";
-import { Button, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, Button, FlatList, Text, View } from "react-native";
 
 const CommentListComponent: FC = () => {
   const comments = commentsStore.comments.get();
-  console.log("comments", comments);
+  const { loadingComments, fetchAllComments } = useComments();
+
+  if (loadingComments) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   return (
-    <FlatList
-      data={comments}
-      keyExtractor={(c) => c.id}
-      renderItem={({ item }) => (
-        <View style={{ margin: 10, padding: 10, backgroundColor: "#f0f0f0" }}>
-          <Text>{item.text}</Text>
-          <Text>{item.liked ? "Liked" : "Not liked"}</Text>
-          <Button
-            title={item.liked ? "Unlike" : "Like"}
-            onPress={() => toggleLike(item.id)}
-          />
-        </View>
-      )}
-    />
+    <>
+      <Button title={"Load comments"} onPress={fetchAllComments} />
+      <FlatList
+        data={comments}
+        keyExtractor={(c) => c.id}
+        renderItem={({ item }) => (
+          <View style={{ margin: 10, padding: 10, backgroundColor: "#f0f0f0" }}>
+            <Text>{item.text}</Text>
+            <Text>{item.liked ? "Liked" : "Not liked"}</Text>
+            <Button
+              title={item.liked ? "Unlike" : "Like"}
+              onPress={() => toggleLike(item.id)}
+            />
+          </View>
+        )}
+      />
+    </>
   );
 };
 
