@@ -1,4 +1,8 @@
 # Feed caching experiments (WIP)
+<img width="334" height="708" alt="Screenshot 2025-10-06 at 7 00 32 PM" src="https://github.com/user-attachments/assets/6584ac74-1bd3-4a2c-8483-f05ed61131e3" />
+<img width="334" height="708" alt="Screenshot 2025-10-06 at 7 00 24 PM" src="https://github.com/user-attachments/assets/fe052f4c-3f3a-4577-a043-925a42e22474" />
+
+
 
 ### Integrations
 1. LegendApp State
