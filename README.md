@@ -27,6 +27,6 @@ i
 
 
 ### App Behavior
-1. On the first screen which loads, if the message displated is "Comments loaded from sqlite", it implies the comments were fetched once, persisted in sq-lite, and the store was rehydrated with that data.
-2. If the message displayed is "Comments loaded from network", it implies either the sync is set to manual, or the comments were fetched manually via an api call by pressing the Load Comments button
+1. On the first screen which loads, if the message displayed is "Comments loaded from sqlite", it implies the comments were fetched once, persisted in sq-lite, and the store was rehydrated with that data.
+2. If the message displayed is "Comments loaded from network", it implies either the `sync` is set to manual, or the comments were fetched manually via an api call by pressing the `Load Comments` button
 3. The `source` property has been added on the comments store for testing purposes only, to confirm if the rehydration occurs as expected
