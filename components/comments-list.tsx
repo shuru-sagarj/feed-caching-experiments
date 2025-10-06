@@ -20,7 +20,12 @@ const CommentListComponent: FC = () => {
   return (
     <>
       <Button large text={"Load comments"} onPress={fetchAllComments} />
-      <Text>Comments loaded from {commentsStore$.source.get()}</Text>
+      <Text>
+        Comments loaded from{" "}
+        <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+          {commentsStore$.source.get()}
+        </Text>
+      </Text>
       <FlatList
         data={comments}
         keyExtractor={(c) => c.id}
@@ -30,6 +35,7 @@ const CommentListComponent: FC = () => {
               margin: 10,
               padding: 10,
               gap: 10,
+              borderRadius: 8,
               backgroundColor: "#eaeaea",
             }}
           >
