@@ -8,8 +8,9 @@
 ### Integrations
 1. LegendApp State
 2. expo-sqlite
-3. axios
-4. TanStack Query (optional)
+3. easy-peasy
+4. axios
+5. TanStack Query (optional)
 
 ### Installation
 ```bash
@@ -22,9 +23,10 @@ npx expo start
 i
 ```
 ### Components
-1. LegendApp State for global state management
-2. axios for network requests (mocked using `axios-mock-adapter`)
-3. Offline data persistence with `expo-sqlite`, configured via LegendApp state
+1. LegendApp State (tab screen 1) for global state management
+2. easy-peasy (tab screen 2) for global state management
+3. axios for network requests (mocked using `axios-mock-adapter`)
+4. Offline data persistence with `expo-sqlite`, configured via LegendApp state and easy-peasy persist
 
 
 ### App Behavior
