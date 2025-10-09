@@ -1,16 +1,19 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-
 import { Button } from "@/components/button";
 import {
   useAppStoreActions,
   useAppStoreState,
 } from "@/services/store-easy-peasy/utils";
 import { Comment } from "@/services/store/commentsStore";
-import { useEffect, useState } from "react";
+import { connectionStore } from "@/services/store/connectionStore";
+import { useStoreRehydrated } from "easy-peasy";
+import { useEffect } from "react";
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function TabTwoScreen() {
-  const [feedData, setFeedData] = useState<{ name: string; url: string }[]>();
   const comments = useAppStoreState((state) => state.comments.comments);
+  const isRehydrated = useStoreRehydrated();
+
+  const isOnline = connectionStore.isOnline.get();
   const addCommentToStore = useAppStoreActions(
     (state) => state.comments.addComment
   );
@@ -29,9 +32,9 @@ export default function TabTwoScreen() {
   };
 
   useEffect(() => {
-    (async () => {
-      await loadFromNetwork();
-    })();
+    if (isOnline) {
+      loadFromNetwork();
+    }
   }, []);
 
   const addComment = () => {
@@ -42,6 +45,14 @@ export default function TabTwoScreen() {
     };
     addCommentToStore(newComment);
   };
+
+   if (!isRehydrated) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

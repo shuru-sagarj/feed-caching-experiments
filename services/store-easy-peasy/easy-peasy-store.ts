@@ -1,4 +1,5 @@
-import { action, createStore, thunk } from "easy-peasy";
+import { action, createStore, persist, thunk } from "easy-peasy";
+import AsyncStorage from "expo-sqlite/kv-store";
 import { loadComments } from "../api/commentsApi";
 import { Comment, CommentsModel } from "./comments-model";
 
@@ -24,21 +25,22 @@ export const commentsModel: CommentsModel = {
       };
     }
   }),
-  // --- Thunk to load from network
   loadCommentsFromNetwork: thunk(async (actions) => {
     actions.setIsLoading(true);
     try {
       const comments = await loadComments();
-      actions.setComments(comments);
-    } catch (e) {
-      actions.setComments([]);
-    }
+      if (comments && comments?.length) {
+        actions.setComments(comments);
+      }
+    } catch (e) {}
     actions.setIsLoading(false);
   }),
 };
 
 const rootModel = {
-  comments: commentsModel,
+  comments: persist(commentsModel, {
+    storage: AsyncStorage,
+  }),
 };
 
 const store = createStore(rootModel);

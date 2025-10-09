@@ -48,7 +48,6 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
-
   // Inform tanstack query about the app's focus state-------
   function onAppStateChange(status: AppStateStatus) {
     if (Platform.OS !== "web") {
