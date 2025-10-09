@@ -1,40 +1,56 @@
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
+import { Button } from "@/components/button";
+import {
+  useAppStoreActions,
+  useAppStoreState,
+} from "@/services/store-easy-peasy/utils";
+import { Comment } from "@/services/store/commentsStore";
 import { useState } from "react";
 
 export default function TabTwoScreen() {
   const [feedData, setFeedData] = useState<{ name: string; url: string }[]>();
+  const comments = useAppStoreState((state) => state.comments.comments);
+  const addCommentToStore = useAppStoreActions((state) => state.comments.addComment);
 
+  const toggleCommentVote = () => {};
+  const addComment = () => {
+    const newComment: Comment = {
+      id: Math.floor(Math.random() * 10000).toString(),
+      text: "This is a nice comment",
+      liked: 0,
+    };
+    addCommentToStore(newComment);
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Comments Feed</Text>
+      <Text style={styles.title}>Easy Peasy</Text>
       <View style={styles.separator} />
-
-      {/* <FlatList
-        showsVerticalScrollIndicator={false}
-        data={feedData}
-        contentContainerStyle={{
-          rowGap: 16,
-        }}
-        style={{
-          marginBottom: 20,
-        }}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => {
-          return <PokemonItem {...item} />;
-        }}
-        onEndReachedThreshold={0.7}
-        onEndReached={() => {
-          if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage?.();
-          }
-        }}
-        ListFooterComponent={
-          <View>
-            <Text>Reached the end...</Text>
+      <Button text="Add a new comment" onPress={addComment} />
+      <View style={styles.separator} />
+      <FlatList
+        data={comments}
+        keyExtractor={(c) => c.id}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              margin: 10,
+              padding: 10,
+              gap: 10,
+              borderRadius: 8,
+              backgroundColor: "#eaeaea",
+            }}
+          >
+            <Text>{item.text}</Text>
+            <Button
+              text={item.liked ? "Unlike" : "Like"}
+              onPress={() => {
+                // toggleCommentVote(item.id, item.liked === 0 ? 1 : 0);
+              }}
+            />
           </View>
-        } // Can keep this if needed
-      /> */}
+        )}
+      />
     </View>
   );
 }

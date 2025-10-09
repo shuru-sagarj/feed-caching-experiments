@@ -32,7 +32,7 @@ export default function TabOneScreen() {
           text={`Go ${isOnline ? "offline" : "online"}`}
         />
       </View>
-      <Text style={styles.title}>Tab One</Text>
+      <Text style={styles.title}>Legend State</Text>
       <View style={styles.separator} />
       <CommentList />
     </View>

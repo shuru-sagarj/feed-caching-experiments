@@ -23,6 +23,11 @@ export const commentsStore$ = observable<{
         return data;
       }
     },
+    // syncMode: "auto",
+    // set: async ({ changes, value }) => {
+    //   console.log("Changes", changes);
+    //   console.log("Value", value);
+    // },
   }),
   isLoading: false,
   source: "unknown",

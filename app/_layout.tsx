@@ -1,10 +1,12 @@
-import '@/services/store/persistConfig';
+import store from "@/services/store-easy-peasy/easy-peasy-store";
+import "@/services/store/persistConfig";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   focusManager,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import { StoreProvider } from "easy-peasy";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -80,10 +82,12 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
+      <StoreProvider store={store}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        </Stack>
+      </StoreProvider>
     </QueryClientProvider>
   );
 }
