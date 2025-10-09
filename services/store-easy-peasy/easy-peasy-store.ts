@@ -13,6 +13,16 @@ export const commentsModel: CommentsModel = {
   addComment: action((state, newComment) => {
     state.comments.push(newComment);
   }),
+  updateComment: action((state, updatedComment) => {
+    const index = state.comments.findIndex((c) => c.id === updatedComment.id);
+    delete updatedComment.id;
+    if (index !== -1) {
+      state.comments[index] = {
+        ...state.comments[index],
+        ...updatedComment,
+      };
+    }
+  }),
 };
 
 const rootModel = {

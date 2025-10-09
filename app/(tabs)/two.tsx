@@ -11,9 +11,20 @@ import { useState } from "react";
 export default function TabTwoScreen() {
   const [feedData, setFeedData] = useState<{ name: string; url: string }[]>();
   const comments = useAppStoreState((state) => state.comments.comments);
-  const addCommentToStore = useAppStoreActions((state) => state.comments.addComment);
+  const addCommentToStore = useAppStoreActions(
+    (state) => state.comments.addComment
+  );
+  const updateComment = useAppStoreActions(
+    (state) => state.comments.updateComment
+  );
 
-  const toggleCommentVote = () => {};
+  const toggleCommentVote = (item: Comment) => {
+    updateComment({
+      ...item,
+      liked: item.liked ? 0 : 1,
+    });
+  };
+
   const addComment = () => {
     const newComment: Comment = {
       id: Math.floor(Math.random() * 10000).toString(),
@@ -22,6 +33,7 @@ export default function TabTwoScreen() {
     };
     addCommentToStore(newComment);
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Easy Peasy</Text>
@@ -45,7 +57,7 @@ export default function TabTwoScreen() {
             <Button
               text={item.liked ? "Unlike" : "Like"}
               onPress={() => {
-                // toggleCommentVote(item.id, item.liked === 0 ? 1 : 0);
+                toggleCommentVote(item);
               }}
             />
           </View>

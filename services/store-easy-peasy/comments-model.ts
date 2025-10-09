@@ -12,4 +12,5 @@ export interface CommentsModel {
   setComments: Action<CommentsModel, Comment[]>;
   setIsLoading: Action<CommentsModel, boolean>;
   addComment: Action<CommentsModel, Comment>;
+  updateComment: Action<CommentsModel, Partial<Comment>>;
 }
