@@ -6,7 +6,7 @@ import {
   useAppStoreState,
 } from "@/services/store-easy-peasy/utils";
 import { Comment } from "@/services/store/commentsStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function TabTwoScreen() {
   const [feedData, setFeedData] = useState<{ name: string; url: string }[]>();
@@ -17,6 +17,9 @@ export default function TabTwoScreen() {
   const updateComment = useAppStoreActions(
     (state) => state.comments.updateComment
   );
+  const loadFromNetwork = useAppStoreActions(
+    (state) => state.comments.loadCommentsFromNetwork
+  );
 
   const toggleCommentVote = (item: Comment) => {
     updateComment({
@@ -24,6 +27,12 @@ export default function TabTwoScreen() {
       liked: item.liked ? 0 : 1,
     });
   };
+
+  useEffect(() => {
+    (async () => {
+      await loadFromNetwork();
+    })();
+  }, []);
 
   const addComment = () => {
     const newComment: Comment = {

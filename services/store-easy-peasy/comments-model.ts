@@ -1,4 +1,4 @@
-import { Action } from "easy-peasy";
+import { Action, Thunk } from "easy-peasy";
 export interface Comment {
   id: string;
   text: string;
@@ -13,4 +13,5 @@ export interface CommentsModel {
   setIsLoading: Action<CommentsModel, boolean>;
   addComment: Action<CommentsModel, Comment>;
   updateComment: Action<CommentsModel, Partial<Comment>>;
+  loadCommentsFromNetwork: Thunk<CommentsModel>;
 }

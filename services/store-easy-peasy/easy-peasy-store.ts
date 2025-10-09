@@ -1,4 +1,5 @@
-import { action, createStore } from "easy-peasy";
+import { action, createStore, thunk } from "easy-peasy";
+import { loadComments } from "../api/commentsApi";
 import { Comment, CommentsModel } from "./comments-model";
 
 export const commentsModel: CommentsModel = {
@@ -22,6 +23,17 @@ export const commentsModel: CommentsModel = {
         ...updatedComment,
       };
     }
+  }),
+  // --- Thunk to load from network
+  loadCommentsFromNetwork: thunk(async (actions) => {
+    actions.setIsLoading(true);
+    try {
+      const comments = await loadComments();
+      actions.setComments(comments);
+    } catch (e) {
+      actions.setComments([]);
+    }
+    actions.setIsLoading(false);
   }),
 };
 
